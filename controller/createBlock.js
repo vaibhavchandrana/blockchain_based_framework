@@ -1,4 +1,4 @@
-const model = require('../model/Block')
+const model = require('../model/block')
 const findHash=require('../blockchain/puzzle')
 const Block = model.Block;
 const { encrypt, decrypt, PrivateKey }=require('eciesjs');
@@ -31,6 +31,8 @@ exports.createBlock = async (req, res) => {
 
     res.sendStatus(200);
 };
+
+
 exports.mineBlock=async(req,res)=>{
 
     const block = new Block(req.body)
@@ -38,6 +40,8 @@ exports.mineBlock=async(req,res)=>{
     block.save()
     res.sendStatus(200);
 }
+
+
 exports.getBlock=async(req,res)=>{
     const queryData=await Block.find()
     var len=queryData.length
