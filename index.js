@@ -1,4 +1,6 @@
-require("dotenv").config();
+if (process.env.NODE_ENV !== "production") {
+  require("dotenv").config();
+}
 const express = require("express");
 const server = express();
 const mongoose = require("mongoose");
@@ -6,6 +8,14 @@ const employeeRouter = require("./routes/employee");
 const authRouter = require("./routes/authentication");
 // const userRouter = require('./routes/user')
 const jwt = require("jsonwebtoken");
+const cors = require("cors");
+
+server.use(
+  cors({
+    origin: "*",
+  })
+);
+
 //middle wares
 const auth = (req, res, next) => {
   try {
