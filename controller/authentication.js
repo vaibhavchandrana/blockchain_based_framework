@@ -7,26 +7,30 @@ const jwt = require("jsonwebtoken");
 const bcrypt = require("bcrypt");
 
 exports.createEmployee = async (req, res) => {
-  const { password } = req.body;
-  var tok = jwt.sign({ empId: req.body.empId }, process.env.secretKey);
-  var hashPassword = await bcrypt.hash(password, 10);
-  req.body.password = hashPassword;
-  console.log(hashPassword);
-  const emp = new Employee(req.body);
-  emp
-    .save()
-    .then((result) => {
-      return res.json({ token: tok });
-    })
-    .catch((err) => {
-      return res.json(err);
-    });
+  try {
+    const { password } = req.body;
+    var tok = jwt.sign({ empId: req.body.empId }, process.env.secretKey);
+    var hashPassword = await bcrypt.hash(password, 10);
+    req.body.password = hashPassword;
+    console.log(hashPassword);
+    const emp = new Employee(req.body);
+    emp
+      .save()
+      .then((result) => {
+        return res.json({ token: tok });
+      })
+      .catch((err) => {
+        return res.json(err);
+      });
+  } catch (err) {
+    return res.json(err);
+  }
 };
 
 exports.loginEmployee = async (req, res) => {
-  var eId = req.body.empId;
-  var password = req.body.password;
   try {
+    var eId = req.body.empId;
+    var password = req.body.password;
     var tok = jwt.sign(
       { ownerEmail: req.body.ownerEmail },
       process.env.secretKey
@@ -35,7 +39,11 @@ exports.loginEmployee = async (req, res) => {
     if (query) {
       const result = await bcrypt.compare(password, query.password);
       if (result) {
-        return res.json({ message: "Login Successfull", token: tok });
+        return res.json({
+          message: "Login Successfull",
+          token: tok,
+          employee: true,
+        });
       } else {
         return res.sendStatus(401);
       }
@@ -48,9 +56,9 @@ exports.loginEmployee = async (req, res) => {
 };
 
 exports.loginUser = async (req, res) => {
-  var ownerEmail = req.body.ownerEmail;
-  var password = req.body.password;
   try {
+    var ownerEmail = req.body.ownerEmail;
+    var password = req.body.password;
     var tok = jwt.sign(
       { ownerEmail: req.body.ownerEmail },
       process.env.secretKey
@@ -60,7 +68,7 @@ exports.loginUser = async (req, res) => {
       const result = await bcrypt.compare(password, query.password);
       if (result) {
         return res
-          .json({ message: "welcome to website", token: tok })
+          .json({ message: "welcome to website", token: tok, employee: false })
           .sendStatus(200);
       } else {
         return res.sendStatus(401);
@@ -73,9 +81,9 @@ exports.loginUser = async (req, res) => {
   }
 };
 exports.changeUserPass = async (req, res) => {
-  var ownerEmail = req.body.ownerEmail;
-  var old_password = req.body.oldPassword;
   try {
+    var ownerEmail = req.body.ownerEmail;
+    var old_password = req.body.oldPassword;
     var query = await Home.findOne({ ownerEmail: ownerEmail }).exec();
     if (query) {
       const result = await bcrypt.compare(old_password, query.password);
