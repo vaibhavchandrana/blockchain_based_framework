@@ -1,4 +1,6 @@
-require("dotenv").config();
+if (process.env.NODE_ENV !== "production") {
+  require("dotenv").config();
+}
 const express = require("express");
 const server = express();
 const mongoose = require("mongoose");
@@ -6,6 +8,14 @@ const employeeRouter = require("./routes/employee");
 const authRouter = require("./routes/authentication");
 // const userRouter = require('./routes/user')
 const jwt = require("jsonwebtoken");
+const cors = require("cors");
+
+server.use(
+  cors({
+    origin: "*",
+  })
+);
+
 //middle wares
 const auth = (req, res, next) => {
   try {
@@ -29,14 +39,21 @@ server.use("/auth", authRouter.router);
 server.use("/employee", employeeRouter.router);
 
 //db connection
-main().catch((err) => console.log(err));
 
-async function main() {
+const main = async () => {
   // connect to the first database
-  await mongoose.connect(process.env.MONGO_URL);
-  console.log("Connected to first database");
-}
+  try {
+    await mongoose.connect(process.env.MONGO_URL);
+    console.log("Connected to first database");
+  } catch (err) {
+    console.log(err);
+  }
+};
 
-server.listen(process.env.PORT, () => {
-  console.log("server started");
-});
+main()
+  .then(() => {
+    server.listen(process.env.PORT, () => {
+      console.log("server started");
+    });
+  })
+  .catch((err) => console.log(err));
