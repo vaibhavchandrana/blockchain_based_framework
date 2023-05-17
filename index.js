@@ -15,18 +15,18 @@ const auth = (req, res, next) => {
     if (decoded.empId) {
       next();
     } else {
-      res.sendStatus(401);
+      return res.sendStatus(401);
     }
     console.log(decoded);
   } catch (err) {
-    res.sendStatus(401);
+    return res.sendStatus(401);
   }
 };
 
 server.use(express.json());
 
 server.use("/auth", authRouter.router);
-server.use("/employee",auth, employeeRouter.router);
+server.use("/employee", employeeRouter.router);
 
 //db connection
 main().catch((err) => console.log(err));

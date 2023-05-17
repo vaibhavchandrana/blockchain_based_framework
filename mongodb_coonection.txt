@@ -1,7 +1,0 @@
-mitul connection :mongodb+srv://naudiyalmitul:<password>@cluster0.zwurjh3.mongodb.net/?retryWrites=true&w=majority
-password: Cru1v0cJU6iVYgJA
-user name: naudiyalmitul
-
-mukul connection: mongodb+srv://dhimanmukul307:<password>@cluster0.jz9izpp.mongodb.net/?retryWrites=true&w=majority
-username : dhimanmukul307
-pASSword : OaX7Ifm3uEukx5CL
