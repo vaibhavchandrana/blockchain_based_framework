@@ -13,6 +13,14 @@ exports.createEmployee = async (req, res) => {
     var hashPassword = await bcrypt.hash(password, 10);
     req.body.password = hashPassword;
     console.log(hashPassword);
+    var query1 = await Employee.findOne({ empId: eId }).exec();
+    if (query1) {
+      return res.json({ message: "Employee  already exist" });
+    }
+    var query = await Employee.findOne({ email: req.body.email }).exec();
+    if (query) {
+      return res.json({ message: "Employee  already exist" });
+    }
     const emp = new Employee(req.body);
     emp
       .save()
