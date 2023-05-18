@@ -18,15 +18,15 @@ exports.transactionForWaterPayment = async (req, res) => {
       home.privateKey
     );
     if (blockVersion == 0) {
-      res.status(500).json({ errors: "Consensus failed" });
+     return res.status(500).json({ errors: "Consensus failed" });
     } else {
       home.waterDetails.push(blockVersion);
       await home.save();
-      res.status(200).json({ message: "Details added" });
+      return res.status(200).json({ message: "Details added" });
     }
   } catch (error) {
     console.error(error);
-    res.status(500).json({ errors: ["Some error occured"] });
+    return res.status(500).json({ errors: ["Some error occured"] });
   }
 };
 
@@ -41,15 +41,15 @@ exports.transactionForElectricityPayment = async (req, res) => {
       home.privateKey
     );
     if (blockVersion == 0) {
-      res.status(500).json({ errors: "Consensus failed" });
+     return  res.status(500).json({ errors: "Consensus failed" });
     } else {
       home.electricityDetails.push(blockVersion);
       await home.save();
-      res.status(200).json({ message: "Details added" });
+      return res.status(200).json({ message: "Details added" });
     }
   } catch (error) {
     console.error(error);
-    res.status(500).json({ errors: ["Some error occured"] });
+   return res.status(500).json({ errors: ["Some error occured"] });
   }
 };
 exports.getAllTransactionForElectrictyPayments = async (req, res) => {

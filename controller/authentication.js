@@ -45,10 +45,10 @@ exports.loginEmployee = async (req, res) => {
           employee: true,
         });
       } else {
-        return res.sendStatus(401);
+        return res.json({ message: "password is incorrect" });
       }
     } else {
-      return res.sendStatus(401);
+      return res.json({ message: "Employee does not exist" });
     }
   } catch (err) {
     return res.send(err);
@@ -71,10 +71,10 @@ exports.loginUser = async (req, res) => {
           .json({ message: "welcome to website", token: tok, employee: false })
           .sendStatus(200);
       } else {
-        return res.sendStatus(401);
+        return res.json({ message: "password is incorrect" });
       }
     } else {
-      return res.sendStatus(401);
+      return res.json({ message: "Employee does not exist" });
     }
   } catch (err) {
     return res.send(err);
@@ -93,10 +93,10 @@ exports.changeUserPass = async (req, res) => {
         await query.save();
         return res.json({ message: "password Changed sucessfully" });
       } else {
-        return res.sendStatus(401);
+        return res.json({ message: "Incorrect old password" });
       }
     } else {
-      return res.sendStatus(401);
+      return res.json({ message: "Email does not exist" });
     }
   } catch (err) {
     return res.send(err);

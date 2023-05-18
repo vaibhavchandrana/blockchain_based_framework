@@ -5,7 +5,6 @@ const Home = model.Home;
 const { ec } = require("elliptic");
 const curve = new ec("secp256k1");
 
-
 function generateRandomString(length) {
   var result = "";
   var characters =
@@ -42,18 +41,18 @@ exports.createSociety = async (req, res) => {
     });
 
     const result = await society.save();
-    res.status(201).json(result);
+    return res.status(201).json(result);
   } catch (error) {
     console.error(error);
-    res.status(500).json({ message: "Server Error" });
+    return res.status(500).json({ message: "Server Error" });
   }
 };
 exports.getAllSociety = async (req, res) => {
   try {
     const societies = await Society.find();
-    res.json(societies);
+    return res.json(societies);
   } catch (err) {
-    res.status(500).json({ message: err.message });
+    return res.status(500).json({ message: err.message });
   }
 };
 exports.addHome = async (req, res) => {
@@ -209,14 +208,14 @@ exports.addElectricityDetails = async (req, res) => {
       home.privateKey
     );
     if (blockVersion == 0) {
-      res.status(500).json({ errors: ["Server error"] });
+      return res.status(500).json({ errors: ["Server error"] });
     }
     home.electricityDetails.push(blockVersion);
     await home.save();
-    res.status(200).json({ message: "Details added" });
+    return res.status(200).json({ message: "Details added" });
   } catch (error) {
     console.error(error);
-    res.status(500).json({ errors: ["Server error"] });
+    return res.status(500).json({ errors: ["Some error is made"] });
   }
 };
 
@@ -242,14 +241,14 @@ exports.addWaterAndSewageDetail = async (req, res) => {
       home.privateKey
     );
     if (blockVersion == 0) {
-      res.status(500).json({ errors: "Consensus failed" });
+      return res.status(500).json({ errors: "Consensus failed" });
     } else {
       home.waterDetails.push(blockVersion);
       await home.save();
-      res.status(200).json({ message: "Details added" });
+      return res.status(200).json({ message: "Details added" });
     }
   } catch (error) {
     console.error(error);
-    res.status(500).json({ errors: ["Some error occured"] });
+    return res.status(500).json({ errors: ["Some error occured"] });
   }
 };
