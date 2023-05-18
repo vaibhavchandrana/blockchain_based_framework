@@ -8,12 +8,12 @@ const bcrypt = require("bcrypt");
 
 exports.createEmployee = async (req, res) => {
   try {
-    const { password } = req.body;
+    const { empId, password } = req.body;
     var tok = jwt.sign({ empId: req.body.empId }, process.env.secretKey);
     var hashPassword = await bcrypt.hash(password, 10);
     req.body.password = hashPassword;
     console.log(hashPassword);
-    var query1 = await Employee.findOne({ empId: eId }).exec();
+    var query1 = await Employee.findOne({ empId: empId }).exec();
     if (query1) {
       return res.json({ message: "Employee  already exist" });
     }
