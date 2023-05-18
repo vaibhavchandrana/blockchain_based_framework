@@ -17,7 +17,7 @@ exports.createEmployee = async (req, res) => {
     emp
       .save()
       .then((result) => {
-        return res.json({ token: tok });
+        return res.json({ token: tok, employee: true });
       })
       .catch((err) => {
         return res.json(err);
