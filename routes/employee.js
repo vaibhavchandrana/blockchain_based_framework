@@ -9,7 +9,7 @@ router
   .post("/add/society", completeProfile.createSociety)
   .get("/get/societies/all", completeProfile.getAllSociety)
   .post("/add/home", completeProfile.addHome)
-  .get("/get/home/", completeProfile.getOneHome)
+  .get("/get/home", completeProfile.getOneHome)
   .get("/get/homes/all", completeProfile.getAllHome)
   .get("/society/houses", completeProfile.getAllHomeInsideSociety)
   .post("/add/details/electricity", completeProfile.addElectricityDetails)

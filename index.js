@@ -44,7 +44,7 @@ const main = async () => {
   // connect to the first database
   try {
     await mongoose.connect(process.env.MONGO_URL);
-    console.log("Connected to first database");
+    console.log("Connected to  database");
   } catch (err) {
     console.log(err);
   }
