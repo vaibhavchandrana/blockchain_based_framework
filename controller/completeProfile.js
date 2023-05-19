@@ -99,7 +99,7 @@ exports.addHome = async (req, res) => {
 
 exports.getOneHome = async (req, res) => {
   try {
-    const home = await Home.findOne({ houseNo: req.body.houseNo }).populate(
+    const home = await Home.findOne({ houseNo: req.params.houseNo }).populate(
       "society"
     );
 
@@ -115,7 +115,7 @@ exports.getOneHome = async (req, res) => {
 };
 exports.getAllHomeInsideSociety = async (req, res) => {
   try {
-    const houses = await Home.find({ society: req.body.society_id }).exec();
+    const houses = await Home.find({ society: req.params.society_id }).exec();
     return res.status(200).json(houses);
   } catch (err) {
     console.error(err);

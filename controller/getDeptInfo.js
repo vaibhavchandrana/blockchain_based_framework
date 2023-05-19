@@ -5,7 +5,7 @@ const Home = model.Home;
 //return details of electricity department like acount number
 exports.getElectricityDetailMain = async (req, res) => {
   try {
-    const houseNo = req.body.houseNo;
+    const houseNo = req.params.houseNo;
     const home = await Home.findOne({ houseNo: houseNo });
     const electricDetailBlockVer = Number(await home.electricityDetails[0]);
     const prvtKey = home.privateKey;
@@ -22,7 +22,7 @@ exports.getElectricityDetailMain = async (req, res) => {
 
 exports.getWaterDetailMain = async (req, res) => {
   try {
-    const houseNo = req.body.houseNo;
+    const houseNo = req.params.houseNo;
     const home = await Home.findOne({ houseNo: houseNo });
     const waterDetailBlockVer = Number(await home.waterDetails[0]);
     const prvtKey = home.privateKey;

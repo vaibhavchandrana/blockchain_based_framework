@@ -18,7 +18,7 @@ exports.transactionForWaterPayment = async (req, res) => {
       home.privateKey
     );
     if (blockVersion == 0) {
-     return res.status(500).json({ errors: "Consensus failed" });
+      return res.status(500).json({ errors: "Consensus failed" });
     } else {
       home.waterDetails.push(blockVersion);
       await home.save();
@@ -41,7 +41,7 @@ exports.transactionForElectricityPayment = async (req, res) => {
       home.privateKey
     );
     if (blockVersion == 0) {
-     return  res.status(500).json({ errors: "Consensus failed" });
+      return res.status(500).json({ errors: "Consensus failed" });
     } else {
       home.electricityDetails.push(blockVersion);
       await home.save();
@@ -49,12 +49,12 @@ exports.transactionForElectricityPayment = async (req, res) => {
     }
   } catch (error) {
     console.error(error);
-   return res.status(500).json({ errors: ["Some error occured"] });
+    return res.status(500).json({ errors: ["Some error occured"] });
   }
 };
 exports.getAllTransactionForElectrictyPayments = async (req, res) => {
   try {
-    const houseNo = req.body.houseNo;
+    const houseNo = req.params.houseNo;
     const home = await Home.findOne({ houseNo: houseNo });
     const electricDetailBlockVer = await home.electricityDetails;
     const prvtKey = home.privateKey;
@@ -74,7 +74,7 @@ exports.getAllTransactionForElectrictyPayments = async (req, res) => {
 };
 exports.getAllTransactionForWaterPayments = async (req, res) => {
   try {
-    const houseNo = req.body.houseNo;
+    const houseNo = req.params.houseNo;
     const home = await Home.findOne({ houseNo: houseNo });
     const electricDetailBlockVer = await home.waterDetails;
     const prvtKey = home.privateKey;
