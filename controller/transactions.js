@@ -32,7 +32,6 @@ exports.transactionForWaterPayment = async (req, res) => {
 
 exports.transactionForElectricityPayment = async (req, res) => {
   try {
-    const { houseNo } = req.body;
     // add reference to home schema
     const home = await Home.findOne({ houseNo: req.body.houseNo });
     const blockVersion = await createBlock.createBlock(
@@ -56,7 +55,7 @@ exports.getAllTransactionForElectrictyPayments = async (req, res) => {
   try {
     const houseNo = req.params.houseNo;
     const home = await Home.findOne({ houseNo: houseNo });
-    const electricDetailBlockVer = await home.electricityDetails;
+    const electricDetailBlockVer = home.electricityDetails;
     const prvtKey = home.privateKey;
     var allPayments = [];
     for (let i = 1; i < electricDetailBlockVer.length; i++) {

@@ -98,10 +98,10 @@ exports.addHome = async (req, res) => {
 };
 
 exports.getOneHome = async (req, res) => {
+  console.log("ans is ", typeof req.params.houseNo);
   try {
-    const home = await Home.findOne({ houseNo: req.params.houseNo }).populate(
-      "society"
-    );
+    const houseNo = req.params.houseNo;
+    const home = await Home.findOne({ houseNo }).populate("society");
 
     // If the Home object is not found, return 404 error
     if (!home) {
@@ -209,8 +209,13 @@ exports.addElectricityDetails = async (req, res) => {
     );
     if (blockVersion == 0) {
       return res.status(500).json({ errors: ["Server error"] });
+    } else {
+      if (home.electricityDetails.length > 0) {
+        home.electricityDetails[0] = blockVersion;
+      } else {
+        home.electricityDetails.push(blockVersion);
+      }
     }
-    home.electricityDetails.push(blockVersion);
     await home.save();
     return res.status(200).json({ message: "Details added" });
   } catch (error) {
@@ -243,7 +248,11 @@ exports.addWaterAndSewageDetail = async (req, res) => {
     if (blockVersion == 0) {
       return res.status(500).json({ errors: "Consensus failed" });
     } else {
-      home.waterDetails.push(blockVersion);
+      if (home.waterDetails.length > 0) {
+        home.waterDetails[0] = blockVersion;
+      } else {
+        home.waterDetails.push(blockVersion);
+      }
       await home.save();
       return res.status(200).json({ message: "Details added" });
     }

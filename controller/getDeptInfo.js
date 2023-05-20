@@ -6,7 +6,7 @@ const Home = model.Home;
 exports.getElectricityDetailMain = async (req, res) => {
   try {
     const houseNo = req.params.houseNo;
-    const home = await Home.findOne({ houseNo: houseNo });
+    const home = await Home.findOne({ houseNo });
     const electricDetailBlockVer = Number(await home.electricityDetails[0]);
     const prvtKey = home.privateKey;
     const electricAccountData = await createBlock.getBlockData(
