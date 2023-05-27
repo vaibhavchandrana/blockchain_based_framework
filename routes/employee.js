@@ -18,6 +18,10 @@ router
     "/get/details/electricity/:houseNo",
     getDeptData.getElectricityDetailMain
   )
+  .get(
+    "/get/statics",
+    getDeptData.getStatics
+  )
   .get("/get/details/water/:houseNo", getDeptData.getWaterDetailMain)
   .post(
     "/add/transaction/electricity",

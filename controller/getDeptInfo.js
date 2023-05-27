@@ -36,3 +36,13 @@ exports.getWaterDetailMain = async (req, res) => {
     return res.status(500).json({ message: err.message });
   }
 };
+
+exports.getStatics = async (req, res) => {
+  try {
+    const home=Home.find()
+    const noOfHome=home.length;
+    return res.json(noOfHome);
+  } catch (err) {
+    return res.status(500).json({ message: err.message });
+  }
+};
