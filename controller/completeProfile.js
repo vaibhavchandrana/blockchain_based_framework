@@ -4,6 +4,7 @@ const Society = model.Society;
 const Home = model.Home;
 const { ec } = require("elliptic");
 const curve = new ec("secp256k1");
+const bcrypt = require("bcrypt");
 
 function generateRandomString(length) {
   var result = "";
@@ -63,6 +64,8 @@ exports.addHome = async (req, res) => {
       .getPublic()
       .encode("hex", true);
     var password = generateRandomString(10);
+    var hashPassword = await bcrypt.hash(password, 10);
+
     // console.log("Generated password is ", password);
     const newHome = new Home({
       houseNo: req.body.houseNo,
@@ -78,7 +81,7 @@ exports.addHome = async (req, res) => {
       society: req.body.society,
       publicKey: publicKey,
       privateKey: privateKey,
-      password: password,
+      password: hashPassword,
     });
 
     // Validate the new Home object before saving
@@ -91,7 +94,7 @@ exports.addHome = async (req, res) => {
 
     // Save the new Home object to the database
     const savedHome = await newHome.save();
-    return res.status(201).json(savedHome);
+    return res.status(201).json({User:savedHome,password:password});
   } catch (err) {
     return res.status(500).json({ message: err.message });
   }
