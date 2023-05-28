@@ -22,6 +22,10 @@ router
     "/get/statics",
     getDeptData.getStatics
   )
+  .get(
+    "/get/employee/:empId",
+    getDeptData.getEmployeeDetailById
+  )
   .get("/get/details/water/:houseNo", getDeptData.getWaterDetailMain)
   .post(
     "/add/transaction/electricity",

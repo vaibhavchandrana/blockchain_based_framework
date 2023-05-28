@@ -51,6 +51,7 @@ exports.loginEmployee = async (req, res) => {
           message: "Login Successfull",
           token: tok,
           employee: true,
+          empId:result.empId
         });
       } else {
         return res.json({ message: "password is incorrect" });
@@ -76,7 +77,7 @@ exports.loginUser = async (req, res) => {
       const result = await bcrypt.compare(password, query.password);
       if (result) {
         return res
-          .json({ message: "welcome to website", token: tok, employee: false })
+          .json({ message: "welcome to website", token: tok, employee: false,houseNo:query.houseNo,email:query.ownerEmail })
           .sendStatus(200);
       } else {
         return res.json({ message: "password is incorrect" });

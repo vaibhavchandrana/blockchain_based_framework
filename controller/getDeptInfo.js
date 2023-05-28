@@ -1,6 +1,11 @@
 const model = require("../model/home");
+const empModel=require("../model/employee")
+const BlockModel=require("../model/block")
+const Employee=empModel.Employee
+const Block=BlockModel.Block
 const createBlock = require("./createBlock");
 const Home = model.Home;
+const Society=model.Society
 
 //return details of electricity department like acount number
 exports.getElectricityDetailMain = async (req, res) => {
@@ -39,10 +44,29 @@ exports.getWaterDetailMain = async (req, res) => {
 
 exports.getStatics = async (req, res) => {
   try {
-    const home=Home.find()
-    const noOfHome=home.length;
-    return res.json(noOfHome);
+    // Find the count of homes
+    const homeCount = await Home.countDocuments();
+    const empCount = await Employee.countDocuments();
+    const BlockCount = await Block.countDocuments();
+    const societyCount = await Society.countDocuments();
+    res.json({ homeCount: homeCount,employeeCount:empCount,blockCount:BlockCount,societyCount:societyCount });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: "Internal server error" });
+  }
+};
+exports.getEmployeeDetailById=async(req,res)=>{
+  try {
+    const empId = req.params.empId;
+    const employee = await Employee.findOne({ empId });
+
+    // If the Home object is not found, return 404 error
+    if (!employee) {
+      return res.status(404).json({ message: "Employee not found" });
+    } else {
+      return res.json(employee);
+    }
   } catch (err) {
     return res.status(500).json({ message: err.message });
   }
-};
+}
