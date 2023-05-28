@@ -19,7 +19,7 @@ exports.getElectricityDetailMain = async (req, res) => {
       prvtKey
     );
     console.log(electricAccountData);
-    return res.json(electricAccountData);
+    return res.sendStatus(200).json(electricAccountData);
   } catch (err) {
     return res.status(500).json({ message: err.message });
   }
@@ -36,7 +36,7 @@ exports.getWaterDetailMain = async (req, res) => {
       waterDetailBlockVer,
       prvtKey
     );
-    return res.json(waterAccountData);
+    return res.sendStatus(200).json(waterAccountData);
   } catch (err) {
     return res.status(500).json({ message: err.message });
   }
@@ -49,7 +49,7 @@ exports.getStatics = async (req, res) => {
     const empCount = await Employee.countDocuments();
     const BlockCount = await Block.countDocuments();
     const societyCount = await Society.countDocuments();
-    res.json({ homeCount: homeCount,employeeCount:empCount,blockCount:BlockCount,societyCount:societyCount });
+    res.sendStatus(200).json({ homeCount: homeCount,employeeCount:empCount,blockCount:BlockCount,societyCount:societyCount });
   } catch (error) {
     console.error(error);
     res.status(500).json({ error: "Internal server error" });
