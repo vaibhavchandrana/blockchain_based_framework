@@ -64,9 +64,9 @@ exports.getEmployeeDetailById=async(req,res)=>{
     if (!employee) {
       return res.status(404).json({ message: "Employee not found" });
     } else {
-      return res.json(employee);
+      return res.sendStatus(200).json(employee);
     }
   } catch (err) {
-    return res.status(500).json({ message: err.message });
+    return res.sendStatus(500).json({ message: err.message });
   }
 }
