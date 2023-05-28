@@ -51,7 +51,7 @@ exports.loginEmployee = async (req, res) => {
           message: "Login Successfull",
           token: tok,
           employee: true,
-          empId:result.empId
+          empId:query.empId
         });
       } else {
         return res.json({ message: "password is incorrect" });
