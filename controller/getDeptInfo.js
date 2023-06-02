@@ -41,6 +41,33 @@ exports.getWaterDetailMain = async (req, res) => {
     return res.status(500).json({ message: err.message });
   }
 };
+exports.getHomesUnderState = async (req, res) => {
+  try {
+    const state = req.params.state.toLowerCase(); // Convert state to lowercase for case-insensitive search
+    const homes = await Home.find({ 'society.state': { $regex: state, $options: 'i' } }).populate('society');
+    res.status(200).json(homes);
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: 'Server Error' });
+  }
+};
+exports.getHomesBasedOnSearch = async (req, res) => {
+  const query  = req.params.searchString;
+ console.log(query)
+  try {
+    const homes = await Home.find({
+      $or: [
+        { ownerName: { $regex: query, $options: 'i' } },
+        { houseNo: { $regex: query, $options: 'i' } }
+      ]
+    }).populate('society');
+
+    res.json(homes );
+  } catch (error) {
+    console.error('Error searching homes:', error);
+    res.status(500).json({ error: 'Error searching homes' });
+  }
+};
 
 exports.getStatics = async (req, res) => {
   try {

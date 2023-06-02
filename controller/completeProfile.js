@@ -118,13 +118,39 @@ exports.getOneHome = async (req, res) => {
 };
 exports.getAllHomeInsideSociety = async (req, res) => {
   try {
-    const houses = await Home.find({ society: req.params.society_id }).exec();
+    const houses = await Home.find({ society: req.params.society_id }).populate('society').exec();
     return res.status(200).json(houses);
   } catch (err) {
     console.error(err);
     return res.status(500).send("Server Error");
   }
 };
+exports.getAllCityInsideState=async(req,res)=>{
+  try {
+    const state = req.params.state.toLowerCase();
+    const cities = await Society.find(
+      { state: { $regex: new RegExp(`^${state}$`, "i") } },
+      { city: 1 }
+    ).distinct("city");
+    res.status(200).json(cities);
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ message: "Internal Server Error" });
+  }
+}
+exports.getAllSocietiesInsideCity=async(req,res)=>{
+  try {
+    const city = req.params.city.toLowerCase();
+    const societies = await Society.find({
+      city: { $regex: new RegExp(`^${city}$`, "i") },
+    });
+
+    res.status(200).json(societies);
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ message: "Internal Server Error" });
+  }
+}
 
 exports.getAllHome = async (req, res) => {
   try {
@@ -231,9 +257,7 @@ exports.addWaterAndSewageDetail = async (req, res) => {
   try {
     const {
       billNumber,
-      waterUsageAmount,
       waterSource,
-      fixedBill,
       billOwnerName,
       sewageDisposalMethod,
       houseNo,

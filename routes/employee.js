@@ -12,6 +12,8 @@ router
   .get("/get/home/:houseNo", completeProfile.getOneHome)
   .get("/get/homes/all", completeProfile.getAllHome)
   .get("/society/houses/:society_id", completeProfile.getAllHomeInsideSociety)
+  .get("/get/cities/:state", completeProfile.getAllCityInsideState)
+  .get("/get/societies/city/:city", completeProfile.getAllSocietiesInsideCity)
   .post("/add/details/electricity", completeProfile.addElectricityDetails)
   .post("/add/details/water", completeProfile.addWaterAndSewageDetail)
   .get(
@@ -21,6 +23,14 @@ router
   .get(
     "/get/statics",
     getDeptData.getStatics
+  )
+  .get(
+    "/get/homes/state/:state",
+    getDeptData.getHomesUnderState
+  )
+  .get(
+    "/get/homes/search/:searchString",
+    getDeptData.getHomesBasedOnSearch
   )
   .get(
     "/get/employee/:empId",
